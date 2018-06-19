@@ -1,0 +1,126 @@
+<app-header></app-header>
+<div style="margin-top: 60px">
+  <div class="container content">
+    <div>
+      <div class="page-header ">
+        <div class="pull-right pt-3">
+          <!--<span>
+            <button type="button" class="btn btn-info">
+              <i class="fa fa-plus"></i> Edit Watchlist
+            </button>
+          </span>
+          <a class="btn btn-primary" href="/watchlist/">
+            <i class="fa fa-star"></i> Watchlist
+          </a>-->
+        </div>
+        <h2 class="d-inline-block">Watchlist</h2>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-9">
+          <div class="jumbotron">
+            <h3>Build Your Watchlist</h3>
+            <p class="lead">
+              Add companies to your watchlist to
+              <strong> stay updated </strong>
+              about their latest
+              <strong> results, reports and announcements.</strong>
+            </p>
+            <!--<span>
+              <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>Edit Watchlist</button>
+            </span>-->
+          </div>
+        </div>
+      </div>
+
+
+      <section id="peers">
+        <div>
+          <div class="pull-right pt-3">
+            <span>
+              <span>
+                <button type="button" class="btn btn-default">
+                  <i class="glyphicon glyphicon-pencil"></i>
+                  Customize columns
+                </button>
+              </span>
+            </span>
+          </div>
+          <h2>
+            Your Watchlist<small> Companies under your watchlist</small>
+          </h2>
+          <div class="table-responsive">
+            <table class="table table-striped table-hover" *ngIf="watchlistData && watchlistData.length">
+              <thead>
+              <tr>
+                <th class="text">S.No.</th>
+                <th class="text">Name</th>
+                <th>
+                  <span>CMP<br> Rs</span>
+                </th>
+                <th>
+                  <span>P/E<br></span>
+                </th>
+                <th><span>Mar. Cap<br/>Rs.Cr</span></th>
+                <th><span>Div Yld<br/>%</span></th>
+                <th><span>NP Qtr<br/>Rs. Cr.</span></th>
+                <!--<th><span>Qtr Profit Var<br/>%</span></th>-->
+                <th><span>Sales Qtr<br/>Rs.Cr.</span></th>
+                <!--<th><span>Sales Qtr Var<br/>%</span></th>-->
+                <!--<th><span>CMP/ BV<br/></span></th>-->
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let i of watchlistData; let ind = index" [attr.data-index]="ind">
+                  <td class="text">
+                    {{ind +1}}
+                  </td>
+                  <td class="text">
+                    <a routerLink="/{{i.companyDetails.url}}">{{i.stockName}}</a>
+                  </td>
+                  <td>
+                    {{i.companyDetails.primary.CMD}}
+                  </td>
+                  <td>
+                    {{i.companyDetails.primary.PE}}
+                  </td>
+                  <td>
+                    {{i.companyDetails.primary.marketCap}}
+                  </td>
+                  <td>
+                    {{i.companyDetails.primary.dividendYield}}
+                  </td>
+                  <td>
+                    {{i.companyDetails.quarterlyConsolidated[i.companyDetails.quarterlyConsolidated.length -1].value.net}}
+                  </td>
+                  <!--<td>
+                    -
+                  </td>-->
+                  <td>
+                    {{i.companyDetails.quarterlyConsolidated[i.companyDetails.quarterlyConsolidated.length -1].value.sales}}
+                  </td>
+                  <!--<td>
+                    -
+                  </td>-->
+                  <!--<td>
+                    -
+                  </td>-->
+                  <td>
+                    <button class="btn btn-outline-danger" data-toggle="tooltip" title="Remove from Watchlist" (click)="removeFromWatchlist(i.id)">
+                      <i class="fa fa-trash-o"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="watchlistData && watchlistData.length == 0">
+              <strong>No Stock(s) in Portfolio</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

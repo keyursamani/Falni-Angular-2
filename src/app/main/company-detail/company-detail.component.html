@@ -1,0 +1,1079 @@
+<!--<div class="navbar-light bg-light hidden-xs hidden-print subnav-fixed">
+  &lt;!&ndash;<ul class="nav nav-pills" id="scrollbar">
+    <li class="nav-item">
+      <a href="#top" class="nav-link">Polaris Consulting</a>
+    </li>
+    <li class="nav-item">
+      <a href="#charts" class="nav-link">Charts</a>
+    </li>
+    <li class="nav-item">
+      <a href="#analysis" class="nav-link">Analysis</a>
+    </li>
+    <li class="nav-item">
+      <a href="#peers" class="nav-link">Peers</a>
+    </li>
+    <li class="nav-item">
+      <a href="#quarters" class="nav-link">Quarters</a>
+    </li>
+    <li class="nav-item">
+      <a href="#annuals" class="nav-link">Proft &amp; Loss</a>
+    </li>
+    <li class="nav-item">
+      <a href="#balancesheet" class="nav-link">Balance Sheet</a>
+    </li>
+    <li class="nav-item">
+      <a href="#cashflow" class="nav-link">Cash Flow</a>
+    </li>
+    <li class="nav-item">
+      <a href="#reports" class="nav-link">Reports</a>
+    </li>
+  </ul>&ndash;&gt;
+</div>-->
+
+<div class="container content" *ngIf="loading">
+  <div class="col-12 text-center" style="padding: 100px;">
+    <i class="fa fa-spinner fa-pulse"></i> Loading...
+  </div>
+</div>
+
+<div class="container content" *ngIf="!loading && companyDetails">
+  <div>
+    <div id="companyhead" class="page-header">
+      <div class="pull-right pt-3">
+        <button class="btn btn-success" (click)="addToWatchlist()" *ngIf="!addedToWatchlist">
+          <i class="fa fa-plus"></i> Add to Watchlist
+        </button>
+      </div>
+      <h1>
+        {{companyDetails.companyName}}
+
+        <small>
+          {{companyDetails.sector}}
+        </small>
+      </h1>
+      <p class="p">
+        <span style="padding-left: 0px;">SIN: <b>{{companyDetails.primary.ISIN}}</b></span>
+        <span>BSE: <b>{{companyDetails.primary.BSE}}</b></span>
+        <span>NSE: <b>{{companyDetails.primary.NSE}}</b></span>
+        <!--<span>FV: <b>₹ 5</b></span>
+        <span>BV: <b>₹ 402.50</b></span>
+        <span>Mkt Cap: <b>478.7 Crores</b></span>
+        <span>PE: <b>21.5</b></span>
+        <span>NP Last Qtr: <b>-23.34 Crores</b> (-13.8%)</span>-->
+      </p>
+    </div>
+  </div>
+
+  <section>
+    <div class="row">
+      <h4 class="col-sm-4">
+        Market Cap.
+        <b>
+          ₹ {{companyDetails.primary.marketCap}}
+        </b>
+      </h4>
+      <h4 class="col-sm-4">
+        Current Price
+        <b>
+          ₹ {{companyDetails.primary.CMD}}
+        </b>
+      </h4>
+      <h4 class="col-sm-4">
+        Book Value
+        <b>
+          ₹ {{companyDetails.primary.BV}}
+        </b>
+      </h4>
+      <h4 class="col-sm-4">
+        Stock P/E
+        <b>
+          {{companyDetails.primary.PE}}
+        </b>
+      </h4>
+      <h4 class="col-sm-4">
+        Dividend Yield
+        <b>
+          {{companyDetails.primary.dividendYield}}
+        </b>
+      </h4>
+      <h4 class="col-sm-4">
+        Face Value
+        <b>
+          ₹ {{companyDetails.primary.FV}}
+        </b>
+      </h4>
+      <h4 class="col-sm-4">
+        <span>
+          Listed on
+          <a href="">BSE</a>
+          <span>
+            and
+            <a href="">NSE</a>
+          </span>
+        </span>
+      </h4>
+      <h4 class="col-sm-4">
+        <a [href]="companyDetails.primary.website"
+           target="_blank">Company Website</a>
+      </h4>
+      <h4 class="col-sm-4">
+        52 Week High/Low:
+
+        <b>
+          ₹
+          {{companyDetails.primary['52WH']}}
+          / ₹
+          {{companyDetails.primary['52WL']}}
+        </b>
+      </h4>
+    </div>
+    <div>
+    <div class="clearfix"></div>
+    </div>
+  </section>
+
+
+  <section id="analysis">
+    <div>
+      <div class="row">
+        <div class="col-sm-6 callout callout-info">
+          <h4>Pros:</h4>
+          <p class="h4 easy" *ngFor="let i of companyDetails.prosCons.pros.split(',')">
+            {{i}}
+          </p>
+        </div>
+        <div class="col-sm-6 callout callout-warning">
+          <h4>Cons:</h4>
+          <p class="h4 easy" *ngFor="let i of companyDetails.prosCons.cons.split(',')">
+            {{i}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--<section id="peers">
+    <div>
+      <div class="pull-right">
+        <span>
+          <span>
+
+          </span>
+        </span>
+      </div>
+      <h2>
+        Peer Comparison
+        <small>Top 7 companies in the same business</small>
+      </h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th class="text">S.No.</th>
+            <th class="text">Name</th>
+            <th>
+              <span>
+                CMP
+                <br>
+                Rs.
+              </span>
+            </th>
+            <th>
+              <span>
+                P/E
+                <br>
+              </span>
+            </th>
+            <th>
+              <span>
+                Mar Cap
+                <br>
+                Rs.Cr.
+              </span>
+            </th>
+            <th>
+              <span>
+                Div Yld
+
+                <br>
+                %
+              </span>
+            </th>
+            <th>
+              <span>
+                NP Qtr
+                <br>
+                Rs.Cr.
+              </span>
+            </th>
+            <th>
+              <span>
+                Qtr Profit Var
+                <br>
+                %
+              </span>
+            </th>
+            <th>
+              <span>
+                Sales Qtr
+                <br>
+                Rs.Cr.
+              </span>
+            </th>
+            <th>
+              <span>
+                Qtr Sales Var
+
+                <br>
+                %
+              </span>
+            </th>
+            <th>
+              <span>
+                CMP / BV
+                <br>
+              </span>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="">
+            <td class="text">
+              1
+            </td>
+            <td class="text">
+              <a href="/company/ONGC/">O N G C</a>
+            </td>
+            <td>180.70</td>
+            <td>12.53</td>
+            <td>2,30,165.04</td>
+            <td>4.21</td>
+            <td>5,014.67</td>
+            <td>15.22</td>
+            <td>22,995.88</td>
+            <td>14.90</td>
+            <td>1.15</td>
+          </tr>
+          <tr class="">
+            <td class="text">
+              2
+            </td>
+            <td class="text">
+              <a href="/company/OIL/">Oil India</a>
+            </td>
+            <td>231.30</td>
+            <td>8.78</td>
+            <td>26,094.04</td>
+            <td>4.38</td>
+            <td>705.22</td>
+            <td>55.10</td>
+            <td>2,852.55</td>
+            <td>16.62</td>
+            <td>0.84</td>
+          </tr>
+          <tr class="self">
+            <td class="text">
+              3
+            </td>
+            <td class="text">
+              <a href="/company/JINDRILL/consolidated">Jindal Drilling</a>
+            </td>
+            <td>165.80</td>
+            <td>6.54</td>
+            <td>478.30</td>
+            <td>0.30</td>
+            <td>NaN</td>
+            <td>NaN</td>
+            <td>NaN</td>
+            <td>NaN</td>
+            <td>0.28</td>
+          </tr>
+          <tr class="">
+            <td class="text">
+              4
+            </td>
+            <td class="text">
+              <a href="/company/HINDOILEXP/">Hind.Oil Explor.</a>
+            </td>
+            <td>124.65</td>
+            <td>80.93</td>
+            <td>1,642.91</td>
+            <td>0.00</td>
+            <td>12.87</td>
+            <td>100.48</td>
+            <td>13.36</td>
+            <td>143.35</td>
+            <td>4.66</td>
+          </tr>
+          <tr class="">
+            <td class="text">
+              5
+            </td>
+            <td class="text">
+              <a href="/company/SELAN/">Selan Expl. Tech</a>
+            </td>
+            <td>236.95</td>
+            <td>25.70</td>
+            <td>395.47</td>
+            <td>2.07</td>
+            <td>6.59</td>
+            <td>166.80</td>
+            <td>21.22</td>
+            <td>50.18</td>
+            <td>1.33</td>
+          </tr>
+          <tr class="">
+            <td class="text">
+              6
+            </td>
+            <td class="text">
+              <a href="/company/513536/consolidated">Guj.Nat.Resour.</a>
+            </td>
+            <td>24.25</td>
+            <td>56.00</td>
+            <td>93.97</td>
+            <td>0.41</td>
+            <td>0.08</td>
+            <td>104.47</td>
+            <td>2.17</td>
+            <td>3.83</td>
+            <td>1.12</td>
+          </tr>
+          <tr class="">
+            <td class="text">
+              7
+            </td>
+            <td class="text">
+              <a href="/company/531612/">KGN Industries</a>
+            </td>
+            <td>1.85</td>
+            <td>1,027.78</td>
+            <td>41.16</td>
+            <td>0.00</td>
+            <td>0.01</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>NaN</td>
+            <td>0.66</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>-->
+
+  <section id="quarters">
+    <div class="consolidated">
+      <h2>
+        Quarterly Results
+
+        <small>Figures in Rs. Crores /<span><b>Consolidated</b></span></small>
+      </h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let i of quarterlyResult.monthYear">{{i}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="odd">
+            <td class="text">Sales</td>
+            <td *ngFor="let i of quarterlyResult.sales">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Expenses</td>
+            <td *ngFor="let i of quarterlyResult.expenses">{{i}}</td>
+          </tr>
+          <tr class="odd strong">
+            <td class="text">Operating Profit</td>
+            <td *ngFor="let i of quarterlyResult.operatingProfit">{{i}}</td>
+            <!--<td>14.64</td>
+            <td>10.61</td>
+            <td>8.46</td>
+            <td>10.60</td>
+            <td>5.75</td>
+            <td>9.16</td>
+            <td>8.02</td>
+            <td>5.01</td>
+            <td>-5.92</td>
+            <td>0.08</td>
+            <td>-0.42</td>
+            <td>-5.13</td>-->
+          </tr>
+          <tr class="even percent">
+            <td class="text">OPM</td>
+            <td *ngFor="let i of quarterlyResult.OPM">{{i}}</td>
+            <!--<td>12.56</td>
+            <td>12.74</td>
+            <td>10.69</td>
+            <td>13.56</td>
+            <td>7.26</td>
+            <td>9.89</td>
+            <td>7.31</td>
+            <td>4.63</td>
+            <td>-9.71</td>
+            <td>0.20</td>
+            <td>-1.06</td>
+            <td>-14.42</td>-->
+          </tr>
+          <tr class="odd">
+            <td class="text">Other Income</td>
+            <td *ngFor="let i of quarterlyResult.otherIncome">{{i}}</td>
+            <!--<td>8.72</td>
+            <td>8.36</td>
+            <td>10.28</td>
+            <td>8.40</td>
+            <td>4.85</td>
+            <td>7.92</td>
+            <td>4.28</td>
+            <td>11.20</td>
+            <td>2.77</td>
+            <td>5.83</td>
+            <td>6.98</td>
+            <td>4.60</td>-->
+          </tr>
+          <tr class="even">
+            <td class="text">Depreciation</td>
+            <td *ngFor="let i of quarterlyResult.depreciation">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Interest</td>
+            <td *ngFor="let i of quarterlyResult.interest">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Profit before tax</td>
+            <td *ngFor="let i of quarterlyResult.PBT">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Tax</td>
+            <td *ngFor="let i of quarterlyResult.tax">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Net Profit</td>
+            <td *ngFor="let i of quarterlyResult.net">{{i}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="standalone">
+      <h2>
+        Quarterly Results
+
+        <small>Figures in Rs. Crores /<span><b>Standsalone</b></span></small>
+      </h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let i of quarterlyResultStandalone.monthYear">{{i}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="odd">
+            <td class="text">Sales</td>
+            <td *ngFor="let i of quarterlyResultStandalone.sales">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Expenses</td>
+            <td *ngFor="let i of quarterlyResultStandalone.expenses">{{i}}</td>
+          </tr>
+          <tr class="odd strong">
+            <td class="text">Operating Profit</td>
+            <td *ngFor="let i of quarterlyResultStandalone.operatingProfit">{{i}}</td>
+          </tr>
+          <tr class="even percent">
+            <td class="text">OPM</td>
+            <td *ngFor="let i of quarterlyResultStandalone.OPM">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Other Income</td>
+            <td *ngFor="let i of quarterlyResultStandalone.otherIncome">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Depreciation</td>
+            <td *ngFor="let i of quarterlyResultStandalone.depreciation">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Interest</td>
+            <td *ngFor="let i of quarterlyResultStandalone.interest">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Profit before tax</td>
+            <td *ngFor="let i of quarterlyResultStandalone.PBT">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Tax</td>
+            <td *ngFor="let i of quarterlyResultStandalone.tax">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Net Profit</td>
+            <td *ngFor="let i of quarterlyResultStandalone.net">{{i}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="annuals">
+    <div class="consolidated">
+      <h2>
+        Annual Results
+        <small>
+          Figures in Rs. Crores
+          <span>
+            / <b>Consolidated</b>
+          </span>
+        </small>
+      </h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let i of annualResult.monthYear">{{i}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="odd">
+            <td class="text">Sales</td>
+            <td *ngFor="let i of annualResult.sales">{{i}}</td>
+
+          </tr>
+          <tr class="even">
+            <td class="text">Expenses</td>
+            <td *ngFor="let i of annualResult.expenses">{{i}}</td>
+          </tr>
+          <tr class="odd strong">
+            <td class="text">Operating Profit</td>
+            <td *ngFor="let i of annualResult.operatingProfit">{{i}}</td>
+          </tr>
+          <tr class="even percent">
+            <td class="text">OPM</td>
+            <td *ngFor="let i of annualResult.OPM">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Other Income</td>
+            <td *ngFor="let i of annualResult.otherIncome">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Interest</td>
+            <td *ngFor="let i of annualResult.interest">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Depreciation</td>
+            <td *ngFor="let i of annualResult.depreciation">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Profit before tax</td>
+            <td *ngFor="let i of annualResult.PBT">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Tax</td>
+            <td *ngFor="let i of annualResult.tax">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Net Profit</td>
+            <td *ngFor="let i of annualResult.net">{{i}}</td>
+          </tr>
+          <!--<tr class="odd">
+            <td class="text">EPS (unadj)</td>
+            <td *ngFor="let i of annualResult.net">{{i}}</td>
+          </tr>
+          <tr class="even percent">
+            <td class="text">Dividend Payout</td>
+            <td>32.31</td>
+            <td>2.86</td>
+            <td>15.60</td>
+            <td>7.68</td>
+            <td>3.41</td>
+            <td>1.14</td>
+            <td>2.24</td>
+            <td>1.95</td>
+            <td>2.95</td>
+            <td>3.56</td>
+            <td>4.55</td>
+            <td>8.54</td>
+            <td></td>
+          </tr>-->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <h4>Compounded Sales Growth:</h4>
+        <dl class="row">
+          <dt class="col-sm-5 text-right">10 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.SalesGrowth['10Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">5 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.SalesGrowth['5Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">3 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.SalesGrowth['3Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">TTM:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.SalesGrowth['TTM'] || '%'}}
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4">
+        <h4>Compounded Profit Growth:</h4>
+        <dl class="row">
+          <dt class="col-sm-5 text-right">10 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.ProfitGrowth['10Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">5 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.ProfitGrowth['5Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">3 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.ProfitGrowth['3Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">TTM:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.ProfitGrowth['TTM']}}
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4">
+        <h4>Return on Equity:</h4>
+        <dl class="row">
+          <dt class="col-sm-5 text-right">10 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.ROE['10Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">5 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.ROE['5Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">3 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.ROE['3Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">TTM:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthConsolidated.ROE['TTM']}}
+          </dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="standalone">
+      <h2>
+        Annual Results
+        <small>
+          Figures in Rs. Crores
+          <span>
+            /
+              <b>Standalone</b>
+          </span>
+        </small>
+      </h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let i of annualResultStandalone.monthYear">{{i}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="odd">
+            <td class="text">Sales</td>
+            <td *ngFor="let i of annualResultStandalone.sales">{{i}}</td>
+
+          </tr>
+          <tr class="even">
+            <td class="text">Expenses</td>
+            <td *ngFor="let i of annualResultStandalone.expenses">{{i}}</td>
+          </tr>
+          <tr class="odd strong">
+            <td class="text">Operating Profit</td>
+            <td *ngFor="let i of annualResultStandalone.operatingProfit">{{i}}</td>
+          </tr>
+          <tr class="even percent">
+            <td class="text">OPM</td>
+            <td *ngFor="let i of annualResultStandalone.OPM">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Other Income</td>
+            <td *ngFor="let i of annualResultStandalone.otherIncome">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Interest</td>
+            <td *ngFor="let i of annualResultStandalone.interest">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Depreciation</td>
+            <td *ngFor="let i of annualResultStandalone.depreciation">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Profit before tax</td>
+            <td *ngFor="let i of annualResultStandalone.PBT">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Tax</td>
+            <td *ngFor="let i of annualResultStandalone.tax">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Net Profit</td>
+            <td *ngFor="let i of annualResultStandalone.net">{{i}}</td>
+          </tr>
+          <!--<tr class="odd">
+            <td class="text">EPS (unadj)</td>
+            <td *ngFor="let i of annualResult.net">{{i}}</td>
+          </tr>
+          <tr class="even percent">
+            <td class="text">Dividend Payout</td>
+            <td>32.31</td>
+            <td>2.86</td>
+            <td>15.60</td>
+            <td>7.68</td>
+            <td>3.41</td>
+            <td>1.14</td>
+            <td>2.24</td>
+            <td>1.95</td>
+            <td>2.95</td>
+            <td>3.56</td>
+            <td>4.55</td>
+            <td>8.54</td>
+            <td></td>
+          </tr>-->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <h4>Compounded Sales Growth:</h4>
+        <dl class="row">
+          <dt class="col-sm-5 text-right">10 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.SalesGrowth['10Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">5 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.SalesGrowth['5Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">3 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.SalesGrowth['3Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">TTM:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.SalesGrowth['TTM'] || '%'}}
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4">
+        <h4>Compounded Profit Growth:</h4>
+        <dl class="row">
+          <dt class="col-sm-5 text-right">10 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.ProfitGrowth['10Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">5 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.ProfitGrowth['5Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">3 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.ProfitGrowth['3Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">TTM:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.ProfitGrowth['TTM']}}
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4">
+        <h4>Return on Equity:</h4>
+        <dl class="row">
+          <dt class="col-sm-5 text-right">10 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.ROE['10Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">5 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.ROE['5Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">3 Years:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.ROE['3Years']}}
+          </dd>
+          <dt class="col-sm-5 text-right">TTM:</dt>
+          <dd class="col-sm-7">
+            {{companyDetails.growthStandalone.ROE['TTM']}}
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section id="balancesheet">
+    <div class="consolidated">
+      <h2>
+        Balance Sheet
+        <small>Figures in Rs. Crores<span>/<b>Consolidated</b></span></small>
+      </h2>
+      <div class="table-responsive table-striped table-hover">
+        <table class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let i of balancesheetResult.monthYear">{{i}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="odd">
+            <td class="text">Share Capital</td>
+            <td *ngFor="let i of balancesheetResult.shareCapital">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Reserves</td>
+            <td *ngFor="let i of balancesheetResult.reserves">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Borrowings</td>
+            <td *ngFor="let i of balancesheetResult.borrowings">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Other Liabilities</td>
+            <td *ngFor="let i of balancesheetResult.otherLiabilities">{{i}}</td>
+          </tr>
+          <tr class="odd strong">
+            <td class="text">Total Liabilities</td>
+            <td *ngFor="let i of balancesheetResult.totalLiabilities">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Fixed Assets</td>
+            <td *ngFor="let i of balancesheetResult.fixedAssets">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">CWIP</td>
+            <td *ngFor="let i of balancesheetResult.CWIP">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Investments</td>
+            <td *ngFor="let i of balancesheetResult.investments">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Other Assets</td>
+            <td *ngFor="let i of balancesheetResult.otherAssets">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Total Assets</td>
+            <td *ngFor="let i of balancesheetResult.totalAssets">{{i}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="standalone">
+      <h2>
+        Balance Sheet
+        <small>Figures in Rs. Crores<span>/<b>Standalone</b></span></small>
+      </h2>
+      <div class="table-responsive table-striped table-hover">
+        <table class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let i of balancesheetResultStandalone.monthYear">{{i}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="odd">
+            <td class="text">Share Capital</td>
+            <td *ngFor="let i of balancesheetResultStandalone.shareCapital">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Reserves</td>
+            <td *ngFor="let i of balancesheetResultStandalone.reserves">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Borrowings</td>
+            <td *ngFor="let i of balancesheetResultStandalone.borrowings">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Other Liabilities</td>
+            <td *ngFor="let i of balancesheetResultStandalone.otherLiabilities">{{i}}</td>
+          </tr>
+          <tr class="odd strong">
+            <td class="text">Total Liabilities</td>
+            <td *ngFor="let i of balancesheetResultStandalone.totalLiabilities">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Fixed Assets</td>
+            <td *ngFor="let i of balancesheetResultStandalone.fixedAssets">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">CWIP</td>
+            <td *ngFor="let i of balancesheetResultStandalone.CWIP">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Investments</td>
+            <td *ngFor="let i of balancesheetResultStandalone.investments">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Other Assets</td>
+            <td *ngFor="let i of balancesheetResultStandalone.otherAssets">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Total Assets</td>
+            <td *ngFor="let i of balancesheetResultStandalone.totalAssets">{{i}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="cashflow">
+    <div class="consolidated">
+      <h2>
+        Cash Flow
+        <small>
+          Figures in Rs. Crores<span>/<b>Consolidated</b></span></small>
+      </h2>
+      <div class="table-responsive table-striped">
+        <table class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let i of cashflowResult.monthYear">{{i}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="odd">
+            <td class="text">Cash from Operating Activity</td>
+            <td *ngFor="let i of cashflowResult.operation">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Cash from Investing Activity</td>
+            <td *ngFor="let i of cashflowResult.investment">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Cash from Financing Activity</td>
+            <td *ngFor="let i of cashflowResult.financing">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Net Cash Flow</td>
+            <td *ngFor="let i of cashflowResult.netCashflow">{{i}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="standalone">
+      <h2>
+        Cash Flow
+        <small>
+          Figures in Rs. Crores<span>/<b>Standalone</b></span></small>
+      </h2>
+      <div class="table-responsive table-striped">
+        <table class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let i of cashflowResultStandalone.monthYear">{{i}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="odd">
+            <td class="text">Cash from Operating Activity</td>
+            <td *ngFor="let i of cashflowResultStandalone.operation">{{i}}</td>
+          </tr>
+          <tr class="even">
+            <td class="text">Cash from Investing Activity</td>
+            <td *ngFor="let i of cashflowResultStandalone.investment">{{i}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text">Cash from Financing Activity</td>
+            <td *ngFor="let i of cashflowResultStandalone.financing">{{i}}</td>
+          </tr>
+          <tr class="even strong">
+            <td class="text">Net Cash Flow</td>
+            <td *ngFor="let i of cashflowResultStandalone.netCashflow">{{i}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="reports" class="hidden-print row">
+    <div class="col-sm-12 col-lg-6">
+      <div>
+        <h3>Recent Announcements</h3>
+        <p class="h4 easy" *ngFor="let i of companyDetails.recentAnnouncements">
+          - <a [href]="i.value.link" target="_blank">{{i.value.title}}</a>
+          <small class="sub">{{i.value.date}}</small>
+        </p>
+      </div>
+    </div>
+    <div class="col-sm-4 col-lg-3">
+      <div>
+        <h3>Annual Reports</h3>
+        <p class="h4 easy" *ngFor="let i of companyDetails.annualReports">
+          - <a [href]="i.value.link" rel="noreferrer" target="_blank">
+              Financial Year {{i.month_year}}
+            </a>
+          <small class="sub">
+            from bse
+          </small>
+        </p>
+      </div>
+    </div>
+    <div class="col-sm-8 col-lg-3">
+      <div></div>
+    </div>
+  </section>
+  <footer class="footer">
+    <hr>
+    <span class="pull-right right-al no-print red">
+      Made with
+      <i class="fa fa-heart"></i>
+      in
+
+      <b>India</b>
+
+    </span>
+    <p>
+      Navigation Links:
+
+      <a href="/">Home</a>
+      |
+      <a href="watchlist">Watchlist</a>
+      |
+      <a href="blog">Blog</a>
+      |
+      <a href="guides">Guides</a>
+      |
+      <a href="portfolio">Portfolio</a>
+    </p>
+    <span class="sub">
+      Data feed provided by Zerodha.
+      <br>
+      <b>DISCLAIMER:</b>Information is provided "
+      <a href="http://en.wikipedia.org/wiki/As_is">as is</a>
+      " and solely for informational purposes, not for trading purposes or advice, and may be delayed.
+      <a href="/disclaimer/">(complete disclaimer)</a>
+    </span>
+  </footer>
+</div>

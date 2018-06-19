@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">
+    Add Stock
+  </h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="stockForm">
+    <div class="form-group">
+      <label>Stock Name</label>
+      <input type="text"
+             class="form-control"
+             formControlName="stockName"
+             [typeahead]="searchedStockNames"
+             typeaheadOptionField = "name"
+             [typeaheadOptionsLimit]="7"
+             [typeaheadWaitMs]="500" (typeaheadLoading)="changeTypeaheadLoading($event)"
+             (typeaheadOnSelect)="typeaheadOnSelect($event)">
+    </div>
+    <div class="form-group">
+      <label>Exchange</label>
+      <select class="form-control" formControlName="exchange">
+        <option value="BSE">BSE</option>
+        <option value="NSE">NSE</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Transaction</label>
+      <select class="form-control" formControlName="transaction">
+        <option value="Buy">Buy</option>
+        <option value="Sell">Sell</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Price</label>
+      <input type="text" class="form-control" formControlName="price">
+    </div>
+    <div class="form-group">
+      <label>Quantity</label>
+      <input type="text" class="form-control" formControlName="quantity">
+    </div>
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" class="form-control" formControlName="date">
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="addStock(stockForm.value)">Add Stock</button>
+  </form>
+</div>
